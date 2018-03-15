@@ -25,7 +25,7 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 	} else if strings.HasPrefix(site.Event, "callee!") {
 		formatters = append(formatters, formatLiteral("call "+site.Event[len("callee!"):]))
 	} else {
-		formatters = append(formatters, formatProperties(site.Event, site.Sample))
+		formatters = append(formatters, formatMessage(site.Event, site.Sample))
 	}
 	formatters = append(formatters, formatError())
 	if !f.HideTime {
@@ -36,6 +36,12 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 		for i := 0; i < len(ctx.Properties); i += 2 {
 			key := ctx.Properties[i].(string)
 			formatters = append(formatters, formatContext(key, ctx.Properties))
+		}
+	}
+	if !f.HideProperties {
+		for i := 0; i < len(site.Sample); i += 2 {
+			key := site.Sample[i].(string)
+			formatters = append(formatters, formatProperties(key, site.Sample))
 		}
 	}
 	if !f.HideLocation {

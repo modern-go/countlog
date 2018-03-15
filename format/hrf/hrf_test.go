@@ -37,7 +37,8 @@ func TestHrf(t *testing.T) {
 			Event:  "hello {var}",
 			Sample: []interface{}{"var", "world"},
 		})
-		must.Equal("hello world\n", string(fmt.Format(nil, &logger.Event{
+		must.Equal("hello world\n" +
+			"\x1b[90;1mvar: world\x1b[0m\n", string(fmt.Format(nil, &logger.Event{
 			Properties: []interface{}{"var", "world"},
 		})))
 	}))
