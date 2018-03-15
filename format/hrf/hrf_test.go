@@ -14,6 +14,7 @@ func TestHrf(t *testing.T) {
 	t.Run("event", test.Case(func(ctx context.Context) {
 		fmt := (&hrf.Format{
 			HideLevel: true,
+			HideTime:  true,
 		}).FormatterOf(&logger.LogSite{
 			Event: "event!hello",
 		})
@@ -22,6 +23,7 @@ func TestHrf(t *testing.T) {
 	t.Run("callee", test.Case(func(ctx context.Context) {
 		fmt := (&hrf.Format{
 			HideLevel: true,
+			HideTime:  true,
 		}).FormatterOf(&logger.LogSite{
 			Event: "callee!hello",
 		})
@@ -30,6 +32,7 @@ func TestHrf(t *testing.T) {
 	t.Run("msg", test.Case(func(ctx context.Context) {
 		fmt := (&hrf.Format{
 			HideLevel: true,
+			HideTime:  true,
 		}).FormatterOf(&logger.LogSite{
 			Event:  "hello {var}",
 			Sample: []interface{}{"var", "world"},
@@ -45,6 +48,7 @@ func TestHrf(t *testing.T) {
 		})
 		must.Equal("\x1b[31;1m[ERROR]\x1b[0m hello\n"+
 			"\x1b[90;1merror: err\x1b[0m\n"+
+			"\x1b[90;1mtimestamp: 0001-01-01T00:00:00Z\x1b[0m\n"+
 			"\x1b[90;1mlocation:  @ :0\x1b[0m\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelError,
 			Error: errors.New("err"),
