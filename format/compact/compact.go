@@ -8,14 +8,24 @@ import (
 )
 
 type Format struct {
-	dateFormat string
+	timeFormat   string
+	hideLevel    bool
+	hideTime     bool
+	hideLocation bool
 }
 
 func (f Format) FormatterOf(site *logger.LogSite) format.Formatter {
 	var formatters format.Formatters
-	formatters = append(formatters, formatTime(f.dateFormat))
-	formatters = append(formatters, formatLiteral(fmt.Sprintf(
-		"[%s] ", site.Location())))
+	if !f.hideLevel {
+		formatters = append(formatters, formatLevel())
+	}
+	if !f.hideTime {
+		formatters = append(formatters, formatTime(f.timeFormat))
+	}
+	if !f.hideLocation {
+		formatters = append(formatters, formatLiteral(fmt.Sprintf(
+			"[%s] ", site.Location())))
+	}
 	eventName := site.Event
 	if strings.HasPrefix(eventName, "event!") {
 		formatters = append(formatters, formatLiteral(eventName[len("event!"):]))
