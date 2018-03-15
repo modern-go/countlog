@@ -7,10 +7,12 @@ import (
 )
 
 type Format struct {
-	TimeFormat   string
-	HideLevel    bool
-	HideTime     bool
-	HideLocation bool
+	TimeFormat     string
+	HideLevel      bool
+	HideTime       bool
+	HideContext    bool
+	HideProperties bool
+	HideLocation   bool
 }
 
 func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
@@ -28,6 +30,13 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 	formatters = append(formatters, formatError())
 	if !f.HideTime {
 		formatters = append(formatters, formatTime(f.TimeFormat))
+	}
+	ctx := site.LogContext()
+	if !f.HideContext && ctx != nil {
+		for i := 0; i < len(ctx.Properties); i += 2 {
+			key := ctx.Properties[i].(string)
+			formatters = append(formatters, formatContext(key, ctx.Properties))
+		}
 	}
 	if !f.HideLocation {
 		formatters = append(formatters, formatLocation(site))

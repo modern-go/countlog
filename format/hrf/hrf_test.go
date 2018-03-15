@@ -54,4 +54,19 @@ func TestHrf(t *testing.T) {
 			Error: errors.New("err"),
 		})))
 	}))
+	t.Run("context", test.Case(func(ctx context.Context) {
+		ctx = logger.WithContext(ctx)
+		logger.AddLogContext(ctx, "thread", 100)
+		fmt := (&hrf.Format{
+			HideLevel: true,
+			HideTime:  true,
+		}).FormatterOf(&logger.LogSite{
+			Event:   "hello",
+			Context: ctx,
+		})
+		must.Equal("hello\n"+
+			"\x1b[90;1mthread: 100\x1b[0m\n", string(fmt.Format(nil, &logger.Event{
+			Context: ctx,
+		})))
+	}))
 }

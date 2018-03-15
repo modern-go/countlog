@@ -43,16 +43,14 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 		sample := ctx.Properties
 		for i := 0; i < len(sample); i += 2 {
 			key := sample[i].(string)
-			pattern := "||" + key + "={" + key + "}"
-			formatters = append(formatters, formatContext(pattern, sample))
+			formatters = append(formatters, formatContext(key, sample))
 		}
 	}
 	if !f.HideProperties {
 		sample := site.Sample
 		for i := 0; i < len(sample); i += 2 {
 			key := sample[i].(string)
-			pattern := "||" + key + "={" + key + "}"
-			formatters = append(formatters, formatProperties(pattern, sample))
+			formatters = append(formatters, formatProperties(key, sample))
 		}
 	}
 	formatters = append(formatters, formatLiteral("\n"))
