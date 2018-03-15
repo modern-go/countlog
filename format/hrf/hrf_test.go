@@ -43,8 +43,9 @@ func TestHrf(t *testing.T) {
 		}).FormatterOf(&logger.LogSite{
 			Event: "hello",
 		})
-		must.Equal("\x1b[31;1m[ERROR]\x1b[0m hello\n" +
-			"\x1b[90;1merror: err\x1b[0m\n", string(fmt.Format(nil, &logger.Event{
+		must.Equal("\x1b[31;1m[ERROR]\x1b[0m hello\n"+
+			"\x1b[90;1merror: err\x1b[0m\n"+
+			"\x1b[90;1mlocation:  @ :0\x1b[0m\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelError,
 			Error: errors.New("err"),
 		})))

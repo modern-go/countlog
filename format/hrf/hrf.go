@@ -8,6 +8,7 @@ import (
 
 type Format struct {
 	HideLevel bool
+	HideLocation bool
 }
 
 func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
@@ -23,6 +24,9 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 		formatters = append(formatters, formatProperties(site.Event, site.Sample))
 	}
 	formatters = append(formatters, formatError())
+	if !f.HideLocation {
+		formatters = append(formatters, formatLocation(site))
+	}
 	formatters = append(formatters, formatLiteral("\n"))
 	return formatters
 }
