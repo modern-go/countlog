@@ -22,4 +22,13 @@ func TestHrf(t *testing.T) {
 		})
 		must.Equal("call hello\n", string(fmt.Format(nil, &logger.Event{})))
 	}))
+	t.Run("msg", test.Case(func(ctx context.Context) {
+		fmt := (&hrf.Format{}).FormatterOf(&logger.LogSite{
+			Event: "hello {var}",
+			Sample: []interface{}{"var", "world"},
+		})
+		must.Equal("hello world\n", string(fmt.Format(nil, &logger.Event{
+			Properties: []interface{}{"var", "world"},
+		})))
+	}))
 }

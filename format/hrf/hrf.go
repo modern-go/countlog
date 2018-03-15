@@ -16,6 +16,7 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 	} else if strings.HasPrefix(site.Event, "callee!") {
 		formatters = append(formatters, formatLiteral("call "+site.Event[len("callee!"):]))
 	} else {
+		formatters = append(formatters, formatProperties(site.Event, site.Sample))
 	}
 	formatters = append(formatters, formatLiteral("\n"))
 	return formatters
