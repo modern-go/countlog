@@ -58,4 +58,19 @@ func TestCompact(t *testing.T) {
 			Error: errors.New("err"),
 		})))
 	}))
+	t.Run("context", test.Case(func(ctx context.Context) {
+		ctx = logger.WithContext(ctx)
+		logger.AddLogContext(ctx, "thread", 123)
+		fmt := (&compact.Format{
+			HideLevel:    true,
+			HideTime:     true,
+			HideLocation: true,
+		}).FormatterOf(&logger.LogSite{
+			Event:   "hello",
+			Context: ctx,
+		})
+		must.Equal("hello||thread=123\n", string(fmt.Format(nil, &logger.Event{
+			Context: ctx,
+		})))
+	}))
 }

@@ -8,10 +8,12 @@ import (
 )
 
 type Format struct {
-	TimeFormat   string
-	HideLevel    bool
-	HideTime     bool
-	HideLocation bool
+	TimeFormat     string
+	HideLevel      bool
+	HideTime       bool
+	HideLocation   bool
+	HideContext    bool
+	HideProperties bool
 }
 
 func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
@@ -36,11 +38,22 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 		formatters = append(formatters, formatProperties(eventName, site.Sample))
 	}
 	formatters = append(formatters, formatError())
-	sample := site.Sample
-	for i := 0; i < len(sample); i += 2 {
-		key := sample[i].(string)
-		pattern := "||" + key + "={" + key + "}"
-		formatters = append(formatters, formatProperties(pattern, sample))
+	ctx := logger.GetLogContext(site.Context)
+	if !f.HideContext && ctx != nil {
+		sample := ctx.Properties
+		for i := 0; i < len(sample); i += 2 {
+			key := sample[i].(string)
+			pattern := "||" + key + "={" + key + "}"
+			formatters = append(formatters, formatContext(pattern, sample))
+		}
+	}
+	if !f.HideProperties {
+		sample := site.Sample
+		for i := 0; i < len(sample); i += 2 {
+			key := sample[i].(string)
+			pattern := "||" + key + "={" + key + "}"
+			formatters = append(formatters, formatProperties(pattern, sample))
+		}
 	}
 	formatters = append(formatters, formatLiteral("\n"))
 	return formatters

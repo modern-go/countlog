@@ -22,3 +22,7 @@ func GetLogContext(ctx context.Context) *LogContext {
 	logContext, _ := ctx.Value(LogContextKey).(*LogContext)
 	return logContext
 }
+
+func WithContext(ctx context.Context) context.Context {
+	return context.WithValue(ctx, LogContextKey, &LogContext{})
+}

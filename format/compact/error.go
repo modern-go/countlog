@@ -10,8 +10,12 @@ func formatError() format.Formatter {
 		if event.Error == nil {
 			return space
 		}
+		msg := event.Error.Error()
+		if msg == "" {
+			msg = "error"
+		}
 		space = append(space, ':', ' ')
-		space = append(space, event.Error.Error()...)
+		space = append(space, msg...)
 		return space
 	})
 }
