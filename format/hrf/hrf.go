@@ -22,6 +22,7 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 	} else {
 		formatters = append(formatters, formatProperties(site.Event, site.Sample))
 	}
+	formatters = append(formatters, formatError())
 	formatters = append(formatters, formatLiteral("\n"))
 	return formatters
 }
