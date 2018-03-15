@@ -8,21 +8,21 @@ import (
 )
 
 type Format struct {
-	timeFormat   string
-	hideLevel    bool
-	hideTime     bool
-	hideLocation bool
+	TimeFormat   string
+	HideLevel    bool
+	HideTime     bool
+	HideLocation bool
 }
 
-func (f Format) FormatterOf(site *logger.LogSite) format.Formatter {
+func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 	var formatters format.Formatters
-	if !f.hideLevel {
+	if !f.HideLevel {
 		formatters = append(formatters, formatLevel())
 	}
-	if !f.hideTime {
-		formatters = append(formatters, formatTime(f.timeFormat))
+	if !f.HideTime {
+		formatters = append(formatters, formatTime(f.TimeFormat))
 	}
-	if !f.hideLocation {
+	if !f.HideLocation {
 		formatters = append(formatters, formatLiteral(fmt.Sprintf(
 			"[%s] ", site.Location())))
 	}

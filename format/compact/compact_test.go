@@ -12,46 +12,46 @@ import (
 
 func TestCompact(t *testing.T) {
 	t.Run("event", test.Case(func(ctx context.Context) {
-		fmt := compact.Format{}.FormatterOf(&logger.LogSite{
+		fmt := (&compact.Format{
+			HideLevel:    true,
+			HideTime:     true,
+			HideLocation: true,
+		}).FormatterOf(&logger.LogSite{
 			Event: "event!hello",
-			Func: "func",
-			File: "a.go",
-			Line: 100,
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello\n", string(fmt.Format(nil, &logger.Event{
-			Level: logger.LevelTrace,
+		must.Equal("hello\n", string(fmt.Format(nil, &logger.Event{
 		})))
 	}))
 	t.Run("callee", test.Case(func(ctx context.Context) {
-		fmt := compact.Format{}.FormatterOf(&logger.LogSite{
+		fmt := (&compact.Format{
+			HideLevel:    true,
+			HideTime:     true,
+			HideLocation: true,
+		}).FormatterOf(&logger.LogSite{
 			Event: "callee!hello",
-			Func: "func",
-			File: "a.go",
-			Line: 100,
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] call hello\n", string(fmt.Format(nil, &logger.Event{
-			Level: logger.LevelTrace,
+		must.Equal("call hello\n", string(fmt.Format(nil, &logger.Event{
 		})))
 	}))
 	t.Run("msg", test.Case(func(ctx context.Context) {
-		fmt := compact.Format{}.FormatterOf(&logger.LogSite{
-			Event: "hello {var}",
-			Func: "func",
-			File: "a.go",
-			Line: 100,
+		fmt := (&compact.Format{
+			HideLevel:    true,
+			HideTime:     true,
+			HideLocation: true,
+		}).FormatterOf(&logger.LogSite{
+			Event:  "hello {var}",
 			Sample: []interface{}{"var", "world"},
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello world||var=world\n", string(fmt.Format(nil, &logger.Event{
-			Level: logger.LevelTrace,
+		must.Equal("hello world||var=world\n", string(fmt.Format(nil, &logger.Event{
 			Properties: []interface{}{"var", "world"},
 		})))
 	}))
 	t.Run("error", test.Case(func(ctx context.Context) {
-		fmt := compact.Format{}.FormatterOf(&logger.LogSite{
+		fmt := (&compact.Format{}).FormatterOf(&logger.LogSite{
 			Event: "hello",
-			Func: "func",
-			File: "a.go",
-			Line: 100,
+			Func:  "func",
+			File:  "a.go",
+			Line:  100,
 		})
 		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello: err\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelTrace,
