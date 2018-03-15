@@ -9,20 +9,22 @@ type LogContext struct {
 	Properties []interface{}
 }
 
-func AddLogContext(ctx context.Context, key string, value interface{}) {
-	logContext, _ := ctx.Value(LogContextKey).(*LogContext)
-	if logContext == nil {
+func (ctx *LogContext) Add(key string, value interface{}) {
+	if ctx == nil {
 		return
 	}
-	logContext.Properties = append(logContext.Properties, key)
-	logContext.Properties = append(logContext.Properties, value)
+	ctx.Properties = append(ctx.Properties, key)
+	ctx.Properties = append(ctx.Properties, value)
 }
 
 func GetLogContext(ctx context.Context) *LogContext {
+	if ctx == nil {
+		return nil
+	}
 	logContext, _ := ctx.Value(LogContextKey).(*LogContext)
 	return logContext
 }
 
-func WithContext(ctx context.Context) context.Context {
+func WithLogContext(ctx context.Context) context.Context {
 	return context.WithValue(ctx, LogContextKey, &LogContext{})
 }
