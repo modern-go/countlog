@@ -26,5 +26,12 @@ func (f Format) FormatterOf(site *logger.LogSite) format.Formatter {
 		formatters = append(formatters, formatProperties(eventName, site.Sample))
 	}
 	formatters = append(formatters, formatError())
+	sample := site.Sample
+	for i := 0; i < len(sample); i += 2 {
+		key := sample[i].(string)
+		pattern := "||" + key + "={" + key + "}"
+		formatters = append(formatters, formatProperties(pattern, sample))
+	}
+	formatters = append(formatters, formatLiteral("\n"))
 	return formatters
 }

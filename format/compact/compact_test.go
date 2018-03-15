@@ -18,7 +18,7 @@ func TestCompact(t *testing.T) {
 			File: "a.go",
 			Line: 100,
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello", string(fmt.Format(nil, &logger.Event{
+		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelTrace,
 		})))
 	}))
@@ -29,7 +29,7 @@ func TestCompact(t *testing.T) {
 			File: "a.go",
 			Line: 100,
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] call hello", string(fmt.Format(nil, &logger.Event{
+		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] call hello\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelTrace,
 		})))
 	}))
@@ -41,7 +41,7 @@ func TestCompact(t *testing.T) {
 			Line: 100,
 			Sample: []interface{}{"var", "world"},
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello world", string(fmt.Format(nil, &logger.Event{
+		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello world||var=world\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelTrace,
 			Properties: []interface{}{"var", "world"},
 		})))
@@ -53,7 +53,7 @@ func TestCompact(t *testing.T) {
 			File: "a.go",
 			Line: 100,
 		})
-		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello: err", string(fmt.Format(nil, &logger.Event{
+		must.Equal("[TRACE] [0001-01-01T00:00:00Z] [func @ a.go:100] hello: err\n", string(fmt.Format(nil, &logger.Event{
 			Level: logger.LevelTrace,
 			Error: errors.New("err"),
 		})))
