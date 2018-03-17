@@ -6,7 +6,8 @@ import (
 	"github.com/modern-go/msgfmt/formatter"
 )
 
-func formatMessage(pattern string, sample []interface{}) format.Formatter {
+func formatProperties(key string, sample []interface{}) format.Formatter {
+	pattern := "||" + key + "={" + key + "}"
 	formatter := formatter.Of(pattern, sample)
 	return format.FuncFormatter(func(space []byte, event *logger.Event) []byte {
 		return formatter.Format(space, event.Properties)

@@ -59,8 +59,8 @@ func TestCompact(t *testing.T) {
 		})))
 	}))
 	t.Run("context", test.Case(func(ctx context.Context) {
-		ctx = logger.WithContext(ctx)
-		logger.AddLogContext(ctx, "thread", 123)
+		ctx = logger.WithLogContext(ctx)
+		logger.GetLogContext(ctx).Add("thread", 123)
 		fmt := (&compact.Format{
 			HideLevel:    true,
 			HideTime:     true,

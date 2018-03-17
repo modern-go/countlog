@@ -35,7 +35,7 @@ func (f *Format) FormatterOf(site *logger.LogSite) format.Formatter {
 		msg := "call " + eventName[len("callee!"):]
 		formatters = append(formatters, formatLiteral(msg))
 	} else {
-		formatters = append(formatters, formatProperties(eventName, site.Sample))
+		formatters = append(formatters, formatMessage(eventName, site.Sample))
 	}
 	formatters = append(formatters, formatError())
 	ctx := logger.GetLogContext(site.Context)
