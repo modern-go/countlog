@@ -1,15 +1,15 @@
 package countlog_test
 
 import (
-	"testing"
-	"github.com/modern-go/test"
-	"context"
-	"github.com/modern-go/countlog"
-	"github.com/modern-go/countlog/output"
 	"bytes"
-	"github.com/modern-go/countlog/format/jsonlog"
+	"context"
 	"github.com/json-iterator/go"
+	"github.com/modern-go/countlog"
+	"github.com/modern-go/countlog/format/jsonlog"
+	"github.com/modern-go/countlog/output"
+	"github.com/modern-go/test"
 	"github.com/modern-go/test/must"
+	"testing"
 )
 
 func TestCountlog(t *testing.T) {

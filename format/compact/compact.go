@@ -1,9 +1,9 @@
 package compact
 
 import (
-	"github.com/modern-go/countlog/logger"
-	"github.com/modern-go/countlog/format"
 	"fmt"
+	"github.com/modern-go/countlog/format"
+	"github.com/modern-go/countlog/logger"
 	"strings"
 )
 

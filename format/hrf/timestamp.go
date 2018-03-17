@@ -2,8 +2,8 @@ package hrf
 
 import (
 	"github.com/modern-go/countlog/format"
-	"time"
 	"github.com/modern-go/countlog/logger"
+	"time"
 )
 
 func formatTime(timeFormat string) format.Formatter {

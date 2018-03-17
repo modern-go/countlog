@@ -1,11 +1,11 @@
 package output
 
 import (
-	"io"
-	"sync"
-	"os"
 	"github.com/modern-go/countlog/format"
 	"github.com/modern-go/countlog/logger"
+	"io"
+	"os"
+	"sync"
 )
 
 type EventWriter struct {

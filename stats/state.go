@@ -1,10 +1,9 @@
 package stats
 
 import (
-	"time"
 	"github.com/modern-go/countlog/logger"
+	"time"
 )
-
 
 type Point struct {
 	Event     string

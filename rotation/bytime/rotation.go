@@ -1,16 +1,16 @@
 package bytime
 
 import (
-	"os"
-	"unsafe"
-	"sync/atomic"
-	"path"
-	"github.com/modern-go/concurrent"
 	"context"
-	"time"
-	"math/rand"
+	"github.com/modern-go/concurrent"
 	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/msgfmt"
+	"math/rand"
+	"os"
+	"path"
+	"sync/atomic"
+	"time"
+	"unsafe"
 )
 
 // normal => triggered => opened new => normal

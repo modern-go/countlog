@@ -1,12 +1,12 @@
 package stats
 
 import (
-	"testing"
-	"time"
-	"github.com/modern-go/test"
 	"context"
 	"github.com/modern-go/countlog/logger"
+	"github.com/modern-go/test"
 	"github.com/modern-go/test/must"
+	"testing"
+	"time"
 )
 
 func TestStats(t *testing.T) {

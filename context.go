@@ -1,10 +1,10 @@
 package countlog
 
 import (
-	"unsafe"
 	"context"
 	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/reflect2"
+	"unsafe"
 )
 
 func Ctx(ctx context.Context) *Context {

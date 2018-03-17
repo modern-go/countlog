@@ -1,13 +1,13 @@
 package countlog
 
 import (
-	"errors"
 	"context"
-	"github.com/modern-go/countlog/logger"
-	"time"
+	"errors"
 	"github.com/modern-go/concurrent"
+	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/msgfmt/formatter"
 	"runtime"
+	"time"
 )
 
 var handlerCache = concurrent.NewMap()

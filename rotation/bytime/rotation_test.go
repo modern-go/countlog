@@ -1,13 +1,13 @@
 package bytime_test
 
 import (
-	"testing"
-	"github.com/modern-go/test"
 	"context"
 	"github.com/modern-go/countlog/rotation/bytime"
+	"github.com/modern-go/test"
 	"github.com/modern-go/test/must"
 	"io/ioutil"
 	"os"
+	"testing"
 	"time"
 )
 

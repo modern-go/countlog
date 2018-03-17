@@ -1,14 +1,14 @@
 package stats
 
 import (
-	"reflect"
-	"sync"
-	"time"
 	"context"
 	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/gls"
 	"github.com/modern-go/reflect2"
+	"reflect"
 	"strings"
+	"sync"
+	"time"
 )
 
 type Window struct {

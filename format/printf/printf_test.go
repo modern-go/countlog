@@ -1,12 +1,12 @@
 package printf_test
 
 import (
-	"testing"
-	"github.com/modern-go/test"
 	"context"
-	"github.com/modern-go/test/must"
-	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/countlog/format/printf"
+	"github.com/modern-go/countlog/logger"
+	"github.com/modern-go/test"
+	"github.com/modern-go/test/must"
+	"testing"
 )
 
 func TestPrintf(t *testing.T) {

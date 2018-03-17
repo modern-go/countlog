@@ -2,12 +2,13 @@ package logger
 
 import (
 	"context"
-	"time"
 	"fmt"
+	"time"
 )
 
 // MinLevel exists to minimize the overhead of Trace/Debug logging
 var MinLevel = LevelTrace
+
 // MinCallLevel will be half level higher than MinLevel
 // to minimize the xxxCall output
 var MinCallLevel = LevelDebugCall
@@ -121,7 +122,6 @@ type Memo struct {
 	Site  *LogSite
 	Event *Event
 }
-
 
 type FuncEventSink func(site *LogSite) EventHandler
 

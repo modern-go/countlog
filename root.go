@@ -2,8 +2,8 @@ package countlog
 
 import (
 	"github.com/modern-go/countlog/logger"
-	"runtime/debug"
 	"runtime"
+	"runtime/debug"
 )
 
 type panicHandler func(recovered interface{}, event *logger.Event, site *logger.LogSite)
@@ -71,7 +71,7 @@ func (handler *statsAndOutput) LogSite() *logger.LogSite {
 
 func nomalModeOnPanic(recovered interface{}, event *logger.Event, site *logger.LogSite) {
 	redirector := &redirector{
-		site:            *site,
+		site: *site,
 	}
 	handlerCache.Store(site.Event, redirector)
 	newSite := *site
@@ -114,4 +114,3 @@ type accurateHandlerKey struct {
 	File string
 	Line int
 }
-

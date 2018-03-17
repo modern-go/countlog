@@ -1,9 +1,9 @@
 package jsonlog
 
 import (
-	"github.com/modern-go/countlog/logger"
-	"github.com/modern-go/countlog/format"
 	"github.com/json-iterator/go"
+	"github.com/modern-go/countlog/format"
+	"github.com/modern-go/countlog/logger"
 	"strings"
 )
 
@@ -58,12 +58,12 @@ func (f *Format) fillEventMap(eventMap map[interface{}]interface{}, event *logge
 	}
 	ctx := logger.GetLogContext(event.Context)
 	if !f.HideContext && ctx != nil {
-		for i := 0; i < len(ctx.Properties); i+=2 {
+		for i := 0; i < len(ctx.Properties); i += 2 {
 			eventMap[ctx.Properties[i]] = ctx.Properties[i+1]
 		}
 	}
 	if !f.HideProperties {
-		for i := 0; i < len(event.Properties); i+=2 {
+		for i := 0; i < len(event.Properties); i += 2 {
 			eventMap[event.Properties[i]] = event.Properties[i+1]
 		}
 	}

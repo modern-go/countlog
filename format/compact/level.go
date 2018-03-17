@@ -1,8 +1,8 @@
 package compact
 
 import (
-	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/countlog/format"
+	"github.com/modern-go/countlog/logger"
 )
 
 func formatLevel() format.Formatter {

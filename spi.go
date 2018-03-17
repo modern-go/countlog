@@ -1,11 +1,11 @@
 package countlog
 
 import (
-	"os"
+	"github.com/modern-go/countlog/format/hrf"
 	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/countlog/output"
-	"github.com/modern-go/countlog/format/hrf"
 	"github.com/modern-go/countlog/stats"
+	"os"
 )
 
 var EventWriter logger.EventSink = output.NewEventWriter(func(eventWriter *output.EventWriter) {

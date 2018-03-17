@@ -1,13 +1,13 @@
 package compact_test
 
 import (
-	"testing"
-	"github.com/modern-go/test"
 	"context"
+	"errors"
 	"github.com/modern-go/countlog/format/compact"
 	"github.com/modern-go/countlog/logger"
+	"github.com/modern-go/test"
 	"github.com/modern-go/test/must"
-	"errors"
+	"testing"
 )
 
 func TestCompact(t *testing.T) {
@@ -19,8 +19,7 @@ func TestCompact(t *testing.T) {
 		}).FormatterOf(&logger.LogSite{
 			Event: "event!hello",
 		})
-		must.Equal("hello\n", string(fmt.Format(nil, &logger.Event{
-		})))
+		must.Equal("hello\n", string(fmt.Format(nil, &logger.Event{})))
 	}))
 	t.Run("callee", test.Case(func(ctx context.Context) {
 		fmt := (&compact.Format{
@@ -30,8 +29,7 @@ func TestCompact(t *testing.T) {
 		}).FormatterOf(&logger.LogSite{
 			Event: "callee!hello",
 		})
-		must.Equal("call hello\n", string(fmt.Format(nil, &logger.Event{
-		})))
+		must.Equal("call hello\n", string(fmt.Format(nil, &logger.Event{})))
 	}))
 	t.Run("msg", test.Case(func(ctx context.Context) {
 		fmt := (&compact.Format{

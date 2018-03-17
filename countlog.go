@@ -2,9 +2,9 @@ package countlog
 
 import (
 	"github.com/modern-go/countlog/logger"
-	"unsafe"
 	"github.com/modern-go/reflect2"
 	"runtime/debug"
+	"unsafe"
 )
 
 const LevelTraceCall = logger.LevelTraceCall

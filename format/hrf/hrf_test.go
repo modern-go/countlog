@@ -1,13 +1,13 @@
 package hrf_test
 
 import (
-	"testing"
-	"github.com/modern-go/test"
 	"context"
+	"errors"
 	"github.com/modern-go/countlog/format/hrf"
 	"github.com/modern-go/countlog/logger"
+	"github.com/modern-go/test"
 	"github.com/modern-go/test/must"
-	"errors"
+	"testing"
 )
 
 func TestHrf(t *testing.T) {
@@ -37,14 +37,13 @@ func TestHrf(t *testing.T) {
 			Event:  "hello {var}",
 			Sample: []interface{}{"var", "world"},
 		})
-		must.Equal("hello world\n" +
+		must.Equal("hello world\n"+
 			"\x1b[90;1mvar: world\x1b[0m\n", string(fmt.Format(nil, &logger.Event{
 			Properties: []interface{}{"var", "world"},
 		})))
 	}))
 	t.Run("error", test.Case(func(ctx context.Context) {
-		fmt := (&hrf.Format{
-		}).FormatterOf(&logger.LogSite{
+		fmt := (&hrf.Format{}).FormatterOf(&logger.LogSite{
 			Event: "hello",
 		})
 		must.Equal("\x1b[31;1m[ERROR]\x1b[0m hello\n"+

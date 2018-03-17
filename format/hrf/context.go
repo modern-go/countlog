@@ -1,9 +1,9 @@
 package hrf
 
 import (
-	"github.com/modern-go/msgfmt/formatter"
-	"github.com/modern-go/countlog/logger"
 	"github.com/modern-go/countlog/format"
+	"github.com/modern-go/countlog/logger"
+	"github.com/modern-go/msgfmt/formatter"
 )
 
 func formatContext(key string, sample []interface{}) format.Formatter {
