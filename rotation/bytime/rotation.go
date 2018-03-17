@@ -10,6 +10,7 @@ import (
 	"time"
 	"math/rand"
 	"github.com/modern-go/countlog/logger"
+	"github.com/modern-go/msgfmt"
 )
 
 // normal => triggered => opened new => normal
@@ -18,23 +19,26 @@ const statusTriggered = 1
 const statusArchived = 2
 
 type Writer struct {
-	WritePath       string
-	FileMode        os.FileMode
-	DirectoryMode   os.FileMode
-	Interval time.Duration
+	WritePath           string
+	FileMode            os.FileMode
+	DirectoryMode       os.FileMode
+	Interval            time.Duration
+	ArchiveFilePattern  string
+	ArchiveKeepDuration time.Duration
 	// file is owned by the write goroutine
 	file *os.File
 	// newFile and status shared between write and rotate goroutine
-	newFile unsafe.Pointer
-	status int32
+	newFile  unsafe.Pointer
+	status   int32
 	executor *concurrent.UnboundedExecutor
 }
 
 func NewRotationWriter(init func(writer *Writer)) (*Writer, error) {
 	writer := &Writer{
-		FileMode: 0644,
+		FileMode:      0644,
 		DirectoryMode: 0755,
-		executor: concurrent.NewUnboundedExecutor(),
+		executor:      concurrent.NewUnboundedExecutor(),
+		Interval:      time.Hour,
 	}
 	init(writer)
 	err := writer.reopen()
@@ -87,7 +91,7 @@ func (writer *Writer) rotateInBackground(ctx context.Context) {
 		duration := writer.Interval
 		if duration > 0 {
 			randomMax := duration
-			if randomMax > time.Minute * 5 {
+			if randomMax > time.Minute*5 {
 				randomMax = time.Minute * 5
 			}
 			randomGap := time.Duration(rand.Int63n(int64(randomMax)))
@@ -99,6 +103,14 @@ func (writer *Writer) rotateInBackground(ctx context.Context) {
 			return
 		case <-timer:
 		}
+		archivePath := msgfmt.Sprintf(writer.ArchiveFilePattern, "time", time.Now())
+		archivePath = path.Join(path.Dir(writer.WritePath), archivePath)
+		err := os.Rename(writer.WritePath, archivePath)
+		if err != nil {
+			logger.ErrorLogger.Println("failed to move archive", err)
+			continue
+		}
+		atomic.StoreInt32(&writer.status, statusArchived)
 		//archives, err := archiveStrategy.Archive(writer.cfg.WritePath)
 		//if err != nil {
 		//	loglog.Error(err)
