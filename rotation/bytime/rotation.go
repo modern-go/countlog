@@ -111,18 +111,26 @@ func (writer *Writer) rotateInBackground(ctx context.Context) {
 			continue
 		}
 		atomic.StoreInt32(&writer.status, statusArchived)
-		//archives, err := archiveStrategy.Archive(writer.cfg.WritePath)
-		//if err != nil {
-		//	loglog.Error(err)
-		//	// retry after one minute
-		//	timer = time.NewTimer(time.Minute).C
-		//	continue
-		//}
-		//atomic.StoreInt32(&writer.status, statusArchived)
-		//purgeSet := retainStrategy.PurgeSet(archives)
-		//err = purgeStrategy.Purge(purgeSet)
-		//if err != nil {
-		//	loglog.Error(err)
-		//}
+		writer.purgeExpired()
+	}
+}
+
+func (writer *Writer) purgeExpired() {
+	archivePath := path.Dir(writer.WritePath)
+	dir, err := os.Open(archivePath)
+	if err != nil {
+		logger.ErrorLogger.Println("failed to open dir", err)
+		return
+	}
+	files, err := dir.Readdir(0)
+	if err != nil {
+		logger.ErrorLogger.Println("failed to list dir", err)
+		return
+	}
+	now := time.Now()
+	for _, file := range files {
+		if now.Sub(file.ModTime()) > writer.ArchiveKeepDuration {
+			os.Remove(path.Join(archivePath, file.Name()))
+		}
 	}
 }

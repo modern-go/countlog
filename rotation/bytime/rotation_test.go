@@ -38,5 +38,7 @@ func TestRotation(t *testing.T) {
 			must.Nil(err)
 			time.Sleep(time.Second)
 		}
+		files, _ := ioutil.ReadDir("/tmp/testlog/")
+		must.Equal(3, len(files))
 	}))
 }
